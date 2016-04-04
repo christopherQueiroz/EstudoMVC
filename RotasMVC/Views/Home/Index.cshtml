@@ -1,0 +1,62 @@
+﻿
+@*Determina que a view é tipada pelo .Models.Noticia*@
+
+@model IEnumerable<RotasMVC.Models.Noticia>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index, cuzão!</h2>
+
+<div>
+    <ul>
+
+       @* Para cada string nomeada "item" na viewBag Categoria*@
+        @foreach (string item in ViewBag.Categoria) 
+        {
+        <li>
+
+            @*Retorna, em uma lista, o texto do Item, chamando a action MostraCategoria no controller Home, *@
+            @Html.ActionLink(item, "MostraCategoria", "Home", new
+       
+       //criando um novo objeto em que o parâmetro categoria, requisitado na action, é a string item.
+       {@categoria = item}, null)
+        </li>
+        }
+    </ul>
+</div>
+<div>
+    <ul>
+
+        @*Para cada variável intem na Model*@
+        @foreach (var item in Model)
+        {
+            <li>
+
+                @*lista links contendo como titulo a variável item, que representa a Model, .Titulo, que é sua propriedade,
+                executa a action MostraNoticia, no controller Home...*@
+
+                @Html.ActionLink(item.Titulo, "MostraNoticia", "Home", new
+           
+           //...E cria um objeto onde as variáveis de parâmetro da acttion Mostra Noticia recebem o conteúdo respectivo da Model.
+           {
+               @noticiaId = item.NoticiaId,
+               @categoria = item.Categoria.ToLower(),
+               @titulo = item.Titulo.ToLower()
+           }, null)
+            
+
+               @* Aqui é o nome da categoria corrente e a data corrente da Model são exibidas em DisplayFor*@
+            <em>@Html.DisplayFor(modelItem=> item.Categoria)</em>
+            <b>@Html.DisplayFor(modelItem => item.Data)</b>
+                </li>
+        }
+    </ul>
+
+</div>
+
+    <div>
+        @*Titulo / metodo / Controller*@
+        @Html.ActionLink("Todas as Noticias", "TodasAsNoticias", "Home")
+    </div>
